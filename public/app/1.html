@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprout app · Get ready</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body class="app">
+<nav class="proto-bar" aria-label="Prototype">
+<a href="../index.html">← Homepage</a>
+<div class="proto-dots"><a href="1.html" aria-current="page">1</a><a href="2.html">2</a><a href="3.html">3</a><a href="4.html">4</a><a href="5.html">5</a></div>
+<span>App onboarding prototype</span>
+</nav>
+<main class="phone">
+<div class="screen">
+<div class="topbar">
+<span class="step-label">4 short steps</span>
+<div class="lang" role="group" aria-label="App language">
+<button type="button" aria-pressed="true">English</button>
+<button type="button" aria-pressed="false">हिन्दी</button>
+</div>
+</div>
+<div class="bar" aria-hidden="true" style="margin-top:8px"><span></span><span></span><span></span><span></span></div>
+
+<div style="margin-top:20px;background:#E8F4EC;border-radius:24px;height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
+<svg width="116" height="116" viewBox="0 0 64 64" role="img" aria-label="Ankur as a seed, not yet sprouted"><ellipse cx="32" cy="46" rx="8" ry="6" fill="#F2B33D"/><path d="M8 52 Q32 46 56 52" fill="none" stroke="#0F3D2E" stroke-width="2.6" stroke-linecap="round"/></svg>
+<span style="font-size:14px;color:#0F3D2E;font-weight:500">Ankur is a seed right now</span>
+</div>
+
+<h1 class="scr-h1" style="font-size:32px;margin-top:22px">Let's plant your first ₹100.</h1>
+<p class="scr-sub" style="margin-bottom:8px">Keep these two things next to you. It makes the next steps quick.</p>
+
+<label class="check-row"><input type="checkbox" id="c1" checked><span><b style="font-size:17px;display:block">I have my PAN card</b><span class="muted" style="font-size:14px">Needed for KYC</span></span></label>
+<label class="check-row"><input type="checkbox" id="c2"><span><b style="font-size:17px;display:block">My phone is linked to Aadhaar</b><span class="muted" style="font-size:14px">We'll send a code to it</span></span></label>
+
+<div class="spacer"></div>
+<a id="cta" class="btn btn-outline btn-block" href="2.html" style="border-color:#1E7A45">Continue anyway</a>
+<a class="tap" href="#remind" style="justify-content:center;font-weight:600;text-decoration:none;margin-top:4px">Not ready? Remind me tonight</a>
+<p class="muted" style="font-size:12px;line-height:1.4;text-align:center;margin-top:4px">Investments in securities markets are subject to market risks. Read all related documents carefully before investing.</p>
+</div>
+</main>
+<script>
+(function(){
+  var c1=document.getElementById('c1'),c2=document.getElementById('c2'),cta=document.getElementById('cta');
+  function upd(){var ok=c1.checked&&c2.checked;cta.textContent=ok?"I'm ready":'Continue anyway';cta.className=ok?'btn btn-primary btn-block':'btn btn-outline btn-block';cta.style.borderColor=ok?'':'#1E7A45';}
+  c1.addEventListener('change',upd);c2.addEventListener('change',upd);upd();
+  var lb=document.querySelectorAll('.lang button');
+  lb.forEach(function(b){b.addEventListener('click',function(){lb.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')})})});
+})();
+</script>
+</body>
+</html>

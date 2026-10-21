@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprout app · First investment</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body class="app">
+<nav class="proto-bar" aria-label="Prototype">
+<a href="../index.html">← Homepage</a>
+<div class="proto-dots"><a href="1.html">1</a><a href="2.html">2</a><a href="3.html">3</a><a href="4.html">4</a><a href="5.html" aria-current="page">5</a></div>
+<span>App onboarding prototype</span>
+</nav>
+<main class="phone">
+<div class="screen">
+<div class="topbar">
+<a class="back" href="4.html" aria-label="Back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10261C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+<span class="step-label">Step 4 of 4 · Invest</span>
+<svg width="40" height="40" viewBox="0 0 64 64" role="img" aria-label="Ankur, two leaves"><path d="M32 49 V26" stroke="#1E7A45" stroke-width="3.5" stroke-linecap="round"/><path d="M32 38 C25 38 19 33 18 26 C25 26 31 30 32 38 Z" fill="#3FAE6A"/><path d="M32 31 C33 23 39 18 47 18 C46 26 40 31 32 31 Z" fill="#1E7A45"/><path d="M10 52 Q32 46 54 52" fill="none" stroke="#0F3D2E" stroke-width="3.5" stroke-linecap="round"/></svg>
+</div>
+<div class="bar" aria-hidden="true" style="margin-top:6px"><span class="on"></span><span class="on"></span><span class="on"></span><span class="half"></span></div>
+
+<p style="margin-top:14px;background:#FFF6E0;border:1px solid #F3E2B5;border-radius:10px;padding:8px 12px;font-size:12.5px;line-height:1.4;color:#4F3B00">Mutual fund investments are subject to market risks. Read all scheme related documents carefully.</p>
+
+<h1 class="scr-h1" style="font-size:28px;margin:16px 0 12px">Plant your first ₹100</h1>
+
+<div style="border:1.5px solid #D6E2DA;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+<div><div class="eyebrow" style="font-size:13px">A common first pick</div><div style="font-size:19px;font-weight:600;line-height:1.25">[FUND NAME] Index Fund</div><div class="muted" style="font-size:14px">Equity · Index fund · Direct plan</div></div>
+<a class="tap" href="#switch" style="flex:none;font-size:15px;font-weight:600;text-decoration:none">Change</a>
+</div>
+<div style="display:flex;gap:10px;align-items:flex-start;background:#F4F8F5;border-radius:12px;padding:10px 12px">
+<span style="flex:none;font-size:12px;font-weight:700;color:#fff;background:#9A3412;border-radius:6px;padding:2px 8px;margin-top:2px">[RISK LEVEL]</span>
+<span style="font-size:14px">Value moves with the share market. It can go down as well as up, especially in the short term.</span>
+</div>
+<div class="muted" style="font-size:14px">Exit load: [EXIT LOAD] · Min. ₹100</div>
+</div>
+
+<fieldset style="margin-top:18px">
+<legend class="field-label" style="margin-bottom:8px">How much?</legend>
+<div class="chips" id="chips">
+<button type="button" data-v="100" aria-pressed="true">₹100</button>
+<button type="button" data-v="500" aria-pressed="false">₹500</button>
+<button type="button" data-v="1000" aria-pressed="false">₹1,000</button>
+<button type="button" data-v="2000" aria-pressed="false">₹2,000</button>
+</div>
+</fieldset>
+
+<fieldset style="margin-top:14px">
+<legend class="field-label" style="margin-bottom:8px">How often?</legend>
+<div class="seg" id="seg">
+<button type="button" data-m="0" aria-pressed="true">One time</button>
+<button type="button" data-m="1" aria-pressed="false">Every month</button>
+</div>
+</fieldset>
+
+<div class="spacer"></div>
+<p class="muted" id="summary" style="font-size:14px;text-align:center;margin-bottom:8px">Units are allotted at the applicable NAV.</p>
+<a class="btn btn-primary btn-block" id="cta" href="#pay">Invest ₹100</a>
+<a class="tap" href="#later" style="justify-content:center;width:100%;font-size:15px;font-weight:600;text-decoration:none">Browse other beginner funds</a>
+</div>
+</main>
+<script>
+(function(){
+  var amt=100,monthly=false;
+  function fmt(n){return '₹'+n.toLocaleString('en-IN')}
+  function render(){
+    document.querySelectorAll('#chips button').forEach(function(b){b.setAttribute('aria-pressed',+b.dataset.v===amt?'true':'false')});
+    document.querySelectorAll('#seg button').forEach(function(b){b.setAttribute('aria-pressed',(b.dataset.m==='1')===monthly?'true':'false')});
+    document.getElementById('cta').textContent=monthly?'Start '+fmt(amt)+' every month':'Invest '+fmt(amt);
+    document.getElementById('summary').textContent=monthly?'Pause or cancel anytime in the app. Units at the applicable NAV.':'Units are allotted at the applicable NAV.';
+  }
+  document.querySelectorAll('#chips button').forEach(function(b){b.addEventListener('click',function(){amt=+b.dataset.v;render()})});
+  document.querySelectorAll('#seg button').forEach(function(b){b.addEventListener('click',function(){monthly=b.dataset.m==='1';render()})});
+  render();
+})();
+</script>
+</body>
+</html>

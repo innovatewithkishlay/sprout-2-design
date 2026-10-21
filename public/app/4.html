@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprout app · Verifying KYC</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<style>.sway{animation-duration:2.4s}</style>
+</head>
+<body class="app">
+<nav class="proto-bar" aria-label="Prototype">
+<a href="../index.html">← Homepage</a>
+<div class="proto-dots"><a href="1.html">1</a><a href="2.html">2</a><a href="3.html">3</a><a href="4.html" aria-current="page">4</a><a href="5.html">5</a></div>
+<span>App onboarding prototype</span>
+</nav>
+<main class="phone">
+<div class="screen">
+<div class="topbar" style="justify-content:center"><span class="step-label">Step 3 of 4 · KYC check</span></div>
+<div class="bar" aria-hidden="true" style="margin-top:6px"><span class="on"></span><span class="on"></span><span id="bar3" class="half"></span><span></span></div>
+
+<div style="margin-top:22px;background:#E8F4EC;border-radius:24px;height:180px;display:flex;align-items:center;justify-content:center">
+<svg id="ankWait" width="120" height="120" viewBox="0 0 64 64" role="img" aria-label="Ankur swaying gently while it waits"><g class="sway"><path d="M32 49 V28" stroke="#1E7A45" stroke-width="2.6" stroke-linecap="round"/><path d="M32 38 C27 37 25 32 26 27 C30 29 32 33 32 38 Z" fill="#3FAE6A"/><path d="M32 31 C33 26 36 23 40 23 C39 28 36 31 32 31 Z" fill="#1E7A45"/></g><path d="M8 52 Q32 46 56 52" fill="none" stroke="#0F3D2E" stroke-width="2.6" stroke-linecap="round"/></svg>
+<svg id="ankDone" class="hidden" width="120" height="120" viewBox="0 0 64 64" role="img" aria-label="Ankur with both leaves open"><path d="M32 49 V26" stroke="#1E7A45" stroke-width="2.6" stroke-linecap="round"/><path d="M32 34 C24 32 19 25 20 16 C27 18 31 25 32 34 Z" fill="#3FAE6A"/><path d="M32 30 C34 21 40 15 49 14 C47 23 41 29 32 30 Z" fill="#1E7A45"/><path d="M8 52 Q32 46 56 52" fill="none" stroke="#0F3D2E" stroke-width="2.6" stroke-linecap="round"/></svg>
+</div>
+
+<div aria-live="polite">
+<div id="waitText">
+<h1 class="scr-h1" style="margin-top:22px">Checking your details</h1>
+<p class="scr-sub">This is working, not stuck. It can take a few minutes. Time so far: <b style="color:#10261C" id="elapsed">0:00</b></p>
+</div>
+<div id="doneText" class="hidden">
+<h1 class="scr-h1" style="margin-top:22px">You're verified.</h1>
+<p class="scr-sub">Ankur just opened up. One step left: your first ₹100.</p>
+</div>
+</div>
+
+<ol class="vlist" id="steps"></ol>
+
+<div class="spacer"></div>
+<div id="waitActions">
+<div class="note" style="padding:14px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F3D2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:2px"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span style="font-size:15px">You can close the app. We'll send a notification as soon as you're verified, and you'll pick up right here.</span></div>
+<a class="btn btn-outline btn-block" href="#close" style="margin-top:10px;border-color:#1E7A45">Notify me and close</a>
+</div>
+<div id="doneActions" class="hidden">
+<a class="btn btn-primary btn-block" href="5.html">Choose my first fund</a>
+<button type="button" id="replay" class="tap" style="width:100%;justify-content:center;border:0;background:transparent;font-family:inherit;font-size:15px;font-weight:600;color:#1E7A45;cursor:pointer;margin-top:4px">Replay the wait</button>
+</div>
+</div>
+</main>
+<script>
+(function(){
+  var defs=[['PAN matched','In progress'],['Aadhaar code confirmed','In progress'],['Fetching your KYC record','In progress with the KYC registry'],['Setting up your account','In progress']];
+  var check='<span class="dot-done"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>';
+  var spin='<span style="width:28px;height:28px;flex:none;display:flex;align-items:center;justify-content:center"><svg class="spin" width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="#D6E2DA" stroke-width="3"/><path d="M12 3a9 9 0 0 1 9 9" stroke="#1E7A45" stroke-width="3" stroke-linecap="round"/></svg></span>';
+  var todo='<span class="dot-todo"></span>';
+  var secs=0,iv;
+  function $(id){return document.getElementById(id)}
+  function render(){
+    var stage=Math.min(4,1+Math.floor(secs/3)),done=stage>=4;
+    $('steps').innerHTML=defs.map(function(d,i){
+      var icon=i<stage?check:(i===stage?spin:todo);
+      var st=i<stage?'Done':(i===stage?d[1]:'Next');
+      return '<li>'+icon+'<span style="display:flex;flex-direction:column"><b style="font-size:17px;font-weight:600">'+d[0]+'</b><span class="muted" style="font-size:14px">'+st+'</span></span></li>';
+    }).join('');
+    $('elapsed').textContent='0:'+(secs<10?'0'+secs:secs);
+    ['ankWait','waitText','waitActions'].forEach(function(id){$(id).classList.toggle('hidden',done)});
+    ['ankDone','doneText','doneActions'].forEach(function(id){$(id).classList.toggle('hidden',!done)});
+    $('bar3').className=done?'on':'half';
+    if(done)clearInterval(iv);
+  }
+  function start(){secs=0;render();clearInterval(iv);iv=setInterval(function(){secs++;render()},1000)}
+  $('replay').addEventListener('click',start);
+  start();
+})();
+</script>
+</body>
+</html>

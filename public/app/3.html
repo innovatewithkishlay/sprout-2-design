@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprout app · PAN</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body class="app">
+<nav class="proto-bar" aria-label="Prototype">
+<a href="../index.html">← Homepage</a>
+<div class="proto-dots"><a href="1.html">1</a><a href="2.html">2</a><a href="3.html" aria-current="page">3</a><a href="4.html">4</a><a href="5.html">5</a></div>
+<span>App onboarding prototype</span>
+</nav>
+<main class="phone">
+<div class="screen">
+<div class="topbar">
+<a class="back" href="2.html" aria-label="Back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10261C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a>
+<span class="step-label">Step 2 of 4 · PAN</span>
+<svg width="40" height="40" viewBox="0 0 64 64" role="img" aria-label="Ankur, sprout stage"><path d="M32 49 V36" stroke="#1E7A45" stroke-width="3.5" stroke-linecap="round"/><path d="M32 40 C33 33 38 30 44 30 C43 36 38 40 32 40 Z" fill="#3FAE6A"/><path d="M10 52 Q32 46 54 52" fill="none" stroke="#0F3D2E" stroke-width="3.5" stroke-linecap="round"/></svg>
+</div>
+<div class="bar" aria-hidden="true" style="margin-top:6px"><span class="on"></span><span class="on"></span><span></span><span></span></div>
+
+<h1 class="scr-h1">Your PAN</h1>
+<p class="scr-sub" style="margin-bottom:16px">It's on the front of your PAN card, below your date of birth.</p>
+
+<div aria-hidden="true" style="background:#F4F8F5;border:1px solid #D6E2DA;border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;margin-bottom:18px">
+<div style="display:flex;gap:12px;align-items:center"><div style="width:40px;height:48px;border-radius:6px;background:#D6E2DA"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px"><div style="height:8px;width:70%;border-radius:4px;background:#C9D8CF"></div><div style="height:8px;width:50%;border-radius:4px;background:#C9D8CF"></div><div style="height:8px;width:40%;border-radius:4px;background:#C9D8CF"></div></div></div>
+<div style="align-self:flex-start;border:2px solid #F2B33D;background:#FFF6E0;border-radius:8px;padding:2px 10px;font-size:16px;font-weight:700;letter-spacing:2px;color:#4F3B00">ABCDE1234F</div>
+</div>
+
+<label class="field-label" for="pan">PAN number</label>
+<input id="pan" class="input" autocapitalize="characters" maxlength="10" value="BQRPS4821K" style="font-weight:600;letter-spacing:2px;text-transform:uppercase">
+<div class="muted" style="display:flex;justify-content:space-between;margin-top:6px;font-size:14px"><span id="panhint">5 letters, 4 numbers, 1 letter</span><span id="count">10 / 10</span></div>
+
+<label class="field-label" for="dob" style="margin-top:16px">Date of birth (as on PAN)</label>
+<input id="dob" class="input" inputmode="numeric" placeholder="DD / MM / YYYY">
+
+<div class="spacer"></div>
+<details style="background:#F4F8F5;border-radius:12px;padding:0 14px;border:0">
+<summary style="min-height:48px;font-size:15px;color:#0F3D2E">Why do you need this?</summary>
+<p style="font-size:14px;margin-bottom:12px">KYC rules require a PAN for every mutual fund investor. We use it only to verify who you are.</p>
+</details>
+<a class="btn btn-primary btn-block" href="4.html" style="margin-top:10px">Continue</a>
+</div>
+</main>
+<script>
+(function(){
+  var p=document.getElementById('pan'),c=document.getElementById('count'),h=document.getElementById('panhint');
+  p.addEventListener('input',function(){
+    p.value=p.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+    c.textContent=p.value.length+' / 10';
+    var ok=/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(p.value);
+    h.textContent=p.value.length===10?(ok?'Looks right':'Check the format: ABCDE1234F'):'5 letters, 4 numbers, 1 letter';
+    h.style.color=p.value.length===10&&!ok?'#9A3412':'';
+  });
+})();
+</script>
+</body>
+</html>
